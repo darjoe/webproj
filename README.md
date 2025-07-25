@@ -1,7 +1,10 @@
 
 --------------------------------------------------------------------------------
-Portofolio Pemrograman Web [Agung Fajar Tri N 202312084]
-This repository serves as a centralized portfolio for all practical assignments from Modul 1 to Modul 7 and beyond, covering fundamental web development technologies.
+Portofolio Pemrograman Web 
+
+[Agung Fajar Tri N 202312084]
+
+
 Daftar Isi (Table of Contents)
     ◦ Tujuan: Memahami struktur dokumen HTML dan membuat web sederhana.
     ◦ Konten: Dasar-dasar HTML, struktur dokumen, elemen dasar (heading, paragraf, link, gambar, daftar), atribut, dan format teks.
