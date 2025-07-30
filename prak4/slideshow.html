@@ -1,0 +1,43 @@
+<!--- slideshow.html -->
+<!DOCTYPE html>
+<html>
+<head><title>Image Slideshow</title></head>
+<body>
+    <h2>Galeri Gambar</h2>
+    <img id="slideshow-image" src="" alt="Slideshow" width="500">
+    <br>
+    <button onclick="gantiGambar(-1)">Previous</button>
+    <button onclick="gantiGambar(1)">Next</button>
+  
+    <script>
+        var gambar = [ // Array to store image URLs
+            "https://drive.google.com/file/d/1i-Evx2uILlo3FkE2bHn7f6peLCAiIl3B/view?usp=drive_link"
+            "https://unsplash.it/500/300?image=0",
+            "https://unsplash.it/500/300?image=1",
+            "https://unsplash.it/500/300?image=2"
+        ];
+        var indexGambar = 0; // Current image index
+        var imageElement = document.getElementById("slideshow-image"); // Reference to the image element
+  
+        function tampilkanGambar() {
+            imageElement.src = gambar[indexGambar]; // Update the image source
+        }
+  
+        function gantiGambar(arah) {
+            indexGambar += arah; // Increment or decrement index based on 'arah' (-1 for previous, 1 for next)
+            // If at the last image and 'Next' is clicked, loop back to the first image
+            if (indexGambar >= gambar.length) {
+                indexGambar = 0;
+            }
+            // If at the first image and 'Previous' is clicked, loop to the last image
+            if (indexGambar < 0) {
+                indexGambar = gambar.length - 1;
+            }
+            tampilkanGambar(); // Display the new image
+        }
+  
+        // Display the first image when the page loads
+        tampilkanGambar();
+    </script>
+</body>
+</html>

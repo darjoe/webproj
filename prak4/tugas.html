@@ -1,0 +1,438 @@
+<!--- tugas.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Toko Burung berkicau</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Modul 2: Desain & Styling */
+        body {
+            font-family: Arial, sans-serif; /* Modul 2, D.1.b */
+            background-color: #add8e6; /* Modul 2, D.1.a */
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box; /* Modul 2, D.4.b */
+        }
+        .container-wrapper {
+            max-width: 1000px; /* Modul 2, D.2.e */
+            margin: 20px auto; /* Modul 2, D.2.e */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px; /* Modul 2, D.4.a */
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: white; /* Modul 2, D.1.c */
+            background-color: #34495e; /* Custom dark color for contrast */
+            padding: 15px;
+            font-size: 40px; /* Modul 2, D.1.c */
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        #real-time-clock {
+            font-size: 1.2em;
+            text-align: right;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        p.description {
+            background-color: #d3d3d3; /* Modul 2, D.1.d */
+            color: black;
+            padding: 15px; /* Modul 2, D.1.d */
+            margin-bottom: 20px;
+            border-radius: 8px; /* Modul 2, D.4.a */
+            line-height: 1.6;
+        }
+
+        /* Modul 2: Layout Kotak (CSS Grid) - D.2.d, D.3 */
+        .main-content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Default: 2 columns for product display, 1 for list */
+            gap: 20px; /* Modul 2, D.2.d */
+            margin-top: 20px;
+        }
+
+        .product-display, .product-list, .order-form-section, .order-summary-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .product-display {
+            text-align: center;
+        }
+
+        #slideshow-image {
+            max-width: 100%;
+            height: auto;
+            max-height: 300px; /* Limits height to avoid excessive image size */
+            object-fit: contain; /* Ensures the entire image is visible within its boundaries */
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .slideshow-controls button {
+            padding: 8px 15px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Modul 3, D.3.a (hover effect) */
+        }
+        .slideshow-controls button:hover {
+            background-color: #0056b3;
+        }
+
+        .product-info h3, .product-info p {
+            margin: 5px 0;
+        }
+
+        .product-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .product-list li {
+            background-color: #e9ecef;
+            margin-bottom: 8px;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .product-list li:hover {
+            background-color: #cfd6de;
+        }
+
+        .order-form-section, .order-summary-section {
+            margin-top: 20px;
+        }
+
+        .order-form-section label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .order-form-section input[type="text"],
+        .order-form-section input[type="number"] {
+            width: calc(100% - 22px); /* Account for padding and border */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .order-form-section button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .order-form-section button:hover {
+            background-color: #218838;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: -8px; /* Pulls error message closer to input */
+            margin-bottom: 10px;
+        }
+
+        .order-summary-section {
+            white-space: pre-wrap; /* Preserve line breaks and spaces from JS output */
+            font-family: 'Courier New', Courier, monospace; /* Monospace for structured output */
+            background-color: #e2e6ea;
+            padding: 15px;
+            border: 1px dashed #6c757d;
+            overflow-x: auto; /* Allow horizontal scrolling if summary is too wide */
+        }
+
+        /* Responsive Design (Modul 2, D.3) */
+        @media (max-width: 768px) { /* Tablet size */
+            .main-content-grid {
+                grid-template-columns: 1fr 1fr; /* Modul 2, D.3.a: 2 columns */
+            }
+            h1 {
+                font-size: 32px; /* Adjusted for tablet */
+            }
+            .product-display, .product-list, .order-form-section, .order-summary-section {
+                padding: 15px; /* Adjust padding for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) { /* Smartphone size */
+            .main-content-grid {
+                grid-template-columns: 1fr; /* Modul 2, D.3.b: 1 column */
+            }
+            h1 {
+                font-size: 28px; /* Modul 2, D.3.c */
+                padding: 10px; /* Reduced padding for smartphone heading */
+            }
+            p.description {
+                padding: 10px; /* Modul 2, D.3.c */
+            }
+            /* Height of boxes will adjust automatically due to content */
+            #slideshow-image {
+                max-height: 250px; /* Slightly reduce image max height for compact view */
+            }
+            .order-form-section input[type="text"],
+            .order-form-section input[type="number"] {
+                width: calc(100% - 20px); /* Adjust width for smaller padding */
+            }
+        }
+    </style>
+</head>
+<body onload="initializePage()">
+    <div class="container-wrapper">
+        <h1>Toko Burung Berkicau</h1> <!-- Modul 4, D.1 -->
+        <div id="real-time-clock"></div> <!-- Modul 4, D.1 -->
+
+        <p class="description">
+            Selamat datang di Toko Burung Berkicau! Temukan berbagai koleksi burung juara dengan harga terbaik.
+            Gunakan kode promo "DISKON10" untuk mendapatkan potongan harga spesial pada setiap pembelian Anda.
+        </p>
+
+        <div class="main-content-grid">
+            <div class="product-display">
+                <h2>Detail Produk</h2>
+                <img id="slideshow-image" src="" alt="Product Image">
+                <div class="slideshow-controls">
+                    <button onclick="gantiGambar(-1)">Previous</button>
+                    <button onclick="gantiGambar(1)">Next</button>
+                </div>
+                <div class="product-info">
+                    <h3 id="product-name"></h3>
+                    <p id="product-price"></p>
+                </div>
+            </div>
+
+            <div class="product-list">
+                <h2>Daftar Produk</h2>
+                <ul id="daftar-produk">
+                    <!-- Products will be listed here by JavaScript -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="order-form-section">
+            <h2>Form Pemesanan</h2>
+            <form onsubmit="event.preventDefault(); pesanProduk();">
+                <label for="nama-pemesan">Nama Pemesan:</label>
+                <input type="text" id="nama-pemesan" name="nama-pemesan" placeholder="Masukkan nama Anda">
+                <small id="nama-pemesan-error" class="error-message"></small><br>
+
+                <label for="jumlah-pesan">Jumlah Pesan:</label>
+                <input type="number" id="jumlah-pesan" name="jumlah-pesan" value="1" min="1">
+                <small id="jumlah-pesan-error" class="error-message"></small><br>
+
+                <label for="kode-promo">Kode Promo:</label>
+                <input type="text" id="kode-promo" name="kode-promo" placeholder="Contoh: DISKON10">
+                <small id="kode-promo-error" class="error-message"></small><br><br>
+
+                <button type="submit">Pesan Sekarang</button>
+            </form>
+        </div>
+
+        <div class="order-summary-section">
+            <h2>Ringkasan Pesanan</h2>
+            <pre id="ringkasan-pesanan">Isi ringkasan pesanan akan muncul di sini setelah Anda melakukan pemesanan.</pre>
+        </div>
+    </div>
+
+    <script>
+        // Modul 4, D.2 - Data Produk
+        var products = [ /* [2] */
+            {
+                name: "Laptop Gaming X500",
+                price: 12000000,
+                images: [
+                    "https://placehold.co/500x300/3498db/ffffff?text=Laptop+Gaming+1",
+                    "https://placehold.co/500x300/2ecc71/ffffff?text=Laptop+Gaming+2",
+                    "https://placehold.co/500x300/e74c3c/ffffff?text=Laptop+Gaming+3"
+                ]
+            },
+            {
+                name: "Pemakan biji",
+                price: 100000-300000,
+                images: [
+                    "https://www.google.com/imgres?q=kenari%20rASMI&imgurl=https%3A%2F%2Fstatic.promediateknologi.id%2Fcrop%2F0x0%3A0x0%2F750x500%2Fwebp%2Fphoto%2F2022%2F09%2F28%2F1706820351.jpg&imgrefurl=https%3A%2F%2Fwww.dhahanews.com%2Fhobi%2F57513093858%2Fintip-perawatan-kenari-rasmi-impor-mabung-ala-mas-dika-berikan-extra-fooding-hanya-saat-ini&docid=LqfuuXpAUsHpnM&tbnid=EZ98AVjJ75TbwM&vet=12ahUKEwjfjbvtu-OOAxWx-jgGHSZDOAYQM3oECFoQAA..i&w=750&h=500&hcb=2&ved=2ahUKEwjfjbvtu-OOAxWx-jgGHSZDOAYQM3oECFoQAA,
+                'https://www.google.com/imgres?q=lovebird&imgurl=https%3A%2F%2Fresources.pangovet.com%2Fwp-content%2Fuploads%2F2024%2F12%2Fblue-masked-lovebird_JCM-Photos_Shutterstock.jpg&imgrefurl=https%3A%2F%2Fresources.pangovet.com%2Fpet-breeds%2Fbirds%2Fblue-masked-lovebird%2F&docid=-rLOEWRPiD_Z0M&tbnid=RCnEbmKFTZCuUM&vet=12ahUKEwiGm46WvOOOAxVlyDgGHR9gLSQQM3oECC0QAA..i&w=750&h=500&hcb=2&ved=2ahUKEwiGm46WvOOOAxVlyDgGHR9gLSQQM3oECC0QAA
+                ]
+            },
+            {
+                name: "pemakan serangga",
+                price: 9000000,
+                images: [
+                    "https://placehold.co/500x300/95a5a6/ffffff?text=Smart+TV+1",
+                    "https://placehold.co/500x300/34495e/ffffff?text=Smart+TV+2",
+                    "https://placehold.co/500x300/c0392b/ffffff?text=Smart+TV+3"
+                ]
+            }
+        ];
+
+        var currentProductIndex = 0;
+        var currentImageIndex = 0;
+        var slideshowImageElement = document.getElementById("slideshow-image");
+        var productNameElement = document.getElementById("product-name");
+        var productPriceElement = document.getElementById("product-price");
+        var productListElement = document.getElementById("daftar-produk");
+        var orderSummaryElement = document.getElementById("ringkasan-pesanan");
+
+        // --- Modul 4, D.1: Header & Waktu Transaksi (from C.10) ---
+        function updateJam() { /* [4, 5] */
+            var sekarang = new Date();
+            var jam = sekarang.getHours();
+            var menit = sekarang.getMinutes();
+            var detik = sekarang.getSeconds();
+
+            // Tambahkan nol di depan jika angka < 10 [5]
+            jam = (jam < 10 ? "0" : "") + jam;
+            menit = (menit < 10 ? "0" : "") + menit;
+            detik = (detik < 10 ? "0" : "") + detik;
+
+            var waktuString = "Waktu Transaksi: " + sekarang.toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'}) + " " + jam + ":" + menit + ":" + detik;
+            document.getElementById("real-time-clock").innerText = waktuString;
+        }
+
+        function jalankanJam() { /* [5] */
+            setInterval(updateJam, 1000); // Panggil updateJam setiap 1000 milidetik (1 detik) [5]
+            updateJam(); // Call once immediately to avoid delay on load
+        }
+
+        // --- Modul 4, D.2 & D.3: Display Produk & Slideshow (from C.11) ---
+        function tampilkanProdukAktif(productIdx) { /* [2, 6] */
+            currentProductIndex = productIdx;
+            currentImageIndex = 0; // Reset image index when product changes
+            var product = products[currentProductIndex];
+
+            // Update product info
+            productNameElement.innerText = product.name; /* [6] */
+            productPriceElement.innerText = "Harga: Rp " + product.price.toLocaleString('id-ID'); // Format price with IDR
+
+            // Update slideshow image
+            slideshowImageElement.src = product.images[currentImageIndex]; /* [2] */
+        }
+
+        function gantiGambar(arah) { /* [2, 6] */
+            var product = products[currentProductIndex];
+            currentImageIndex += arah;
+
+            // Logika loop slideshow (kembali ke awal/akhir) [7]
+            if (currentImageIndex >= product.images.length) {
+                currentImageIndex = 0;
+            }
+            if (currentImageIndex < 0) {
+                currentImageIndex = product.images.length - 1;
+            }
+            slideshowImageElement.src = product.images[currentImageIndex];
+        }
+
+        // --- Modul 4, D.3: Daftar Produk (from C.4) ---
+        function buildProductList() { /* [6, 8, 9] */
+            productListElement.innerHTML = ""; // Clear existing list
+            for (let i = 0; i < products.length; i++) { /* [9] */
+                let li = document.createElement("li");
+                li.innerText = products[i].name + " - Rp " + products[i].price.toLocaleString('id-ID');
+                li.setAttribute("data-index", i); // Store index for click handling
+                li.onclick = function() { /* [6] */
+                    tampilkanProdukAktif(parseInt(this.getAttribute("data-index")));
+                };
+                productListElement.appendChild(li);
+            }
+        }
+
+        // --- Modul 4, D.4 & D.5: Form Pemesanan & Logika Pemesanan ---
+        function pesanProduk() {
+            var namaPemesanInput = document.getElementById("nama-pemesan");
+            var jumlahPesanInput = document.getElementById("jumlah-pesan");
+            var kodePromoInput = document.getElementById("kode-promo");
+
+            var namaPemesan = namaPemesanInput.value.trim();
+            var jumlahPesan = parseInt(jumlahPesanInput.value);
+            var kodePromo = kodePromoInput.value.toUpperCase(); // Mengubah kode promo ke huruf besar [10-12]
+
+            // Clear previous errors
+            document.getElementById("nama-pemesan-error").innerText = "";
+            document.getElementById("jumlah-pesan-error").innerText = "";
+            document.getElementById("kode-promo-error").innerText = "";
+
+            // Modul 4, D.5: Validasi Form (from C.5) [10, 13, 14]
+            var isValid = true;
+            if (namaPemesan === "") {
+                document.getElementById("nama-pemesan-error").innerText = "Nama pemesan tidak boleh kosong!";
+                isValid = false;
+            }
+            if (isNaN(jumlahPesan) || jumlahPesan <= 0) {
+                document.getElementById("jumlah-pesan-error").innerText = "Jumlah harus angka positif dan lebih dari 0!";
+                isValid = false;
+            }
+
+            if (!isValid) {
+                orderSummaryElement.innerText = "Mohon perbaiki kesalahan input Anda.";
+                return;
+            }
+
+            // Perhitungan Total
+            var activeProduct = products[currentProductIndex];
+            var subtotal = activeProduct.price * jumlahPesan; /* [10] */
+            var potongan = 0;
+            var totalAkhir = subtotal;
+
+            // Modul 4, D.5: Logika Percabangan Diskon (from C.3) [10, 15-18]
+            if (kodePromo === "DISKON10") {
+                potongan = subtotal * 0.10;
+                totalAkhir = subtotal - potongan;
+            }
+
+            // Modul 4, D.5: Generate Order ID (from C.9) [15, 19, 20]
+            var orderId = "INV-" + Math.floor(Math.random() * 90000) + 10000; // Menghasilkan 5 digit angka acak
+
+            // Tampilkan Struk/Ringkasan Pesanan [15]
+            var summaryText = `
+------------------------------------
+           STRUK PEMESANAN
+------------------------------------
+Order ID       : ${orderId}
+Nama Pemesan   : ${namaPemesan}
+Produk         : ${activeProduct.name}
+Jumlah         : ${jumlahPesan}
+Harga Satuan   : Rp ${activeProduct.price.toLocaleString('id-ID')}
+------------------------------------
+Subtotal       : Rp ${subtotal.toLocaleString('id-ID')}
+Potongan Promo : Rp ${potongan.toLocaleString('id-ID')}
+------------------------------------
+Total Akhir    : Rp ${totalAkhir.toLocaleString('id-ID')}
+------------------------------------
+Terima Kasih Atas Pesanan Anda!
+            `;
+            orderSummaryElement.innerText = summaryText;
+
+            // Optional: Clear form inputs after successful order
+            namaPemesanInput.value = "";
+            jumlahPesanInput.value = "1";
+            kodePromoInput.value = "";
+        }
+
+        // Initial page load functions
+        function initializePage() {
+            jalankanJam(); // Start the real-time clock
+            buildProductList(); // Populate the product list
+            tampilkanProdukAktif(0); // Display the first product by default [2]
+        }
+    </script>
+</body>
+</html>

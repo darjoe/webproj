@@ -1,0 +1,33 @@
+<!---event_handling.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Latihan Event Handling</title>
+  <style>
+    #inputNama { border: 2px solid #ccc; padding: 8px; transition: border-color 0.3s; }
+    #inputNama:focus { border-color: dodgerblue; }
+  </style>
+</head>
+<body>
+  <h3>Event onmouseover & onmouseout</h3>
+  <img id="gambar" src="https://unsplash.it/200/150?image=1" alt="Gambar" onmouseover="gantiGambar()" onmouseout="kembalikanGambar()">
+  <hr>
+  <h3>Event onfocus & onchange</h3>
+  <label for="inputNama">Ketik Nama Anda:</label>
+  <input type="text" id="inputNama" onchange="tampilkanOutput()">
+  <p>Output: <span id="hasil"></span></p>
+
+  <script>
+    function gantiGambar() {
+      document.getElementById("gambar").src = "https://unsplash.it/200/150?image=10";
+    }
+    function kembalikanGambar() {
+      document.getElementById("gambar").src = "https://unsplash.it/200/150?image=1";
+    }
+    function tampilkanOutput() {
+      var nilaiInput = document.getElementById("inputNama").value;
+      document.getElementById("hasil").innerHTML = "<b>" + nilaiInput + "</b>";
+    }
+  </script>
+</body>
+</html>
